@@ -1,4 +1,4 @@
-# 🤖 Telegram Private Chatbot (v4.0) 
+# 🤖 Telegram Private Chatbot (v5.1) 
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/jikssha/telegram_private_chatbot)
 ![GitHub stars](https://img.shields.io/github/stars/jikssha/telegram_private_chatbot?style=social)
@@ -9,6 +9,26 @@
 **Telegram Private Chatbot** 是一个基于 **Cloudflare Workers** 的高性能 Telegram 双向私聊机器人。它专为解决 Telegram 上的垃圾广告骚扰而生，拥有 0 延迟的本地人机验证系统、强大的管理员指令集以及无缝的消息转发体验。
 
 无需购买服务器，利用 Cloudflare 强大的边缘计算网络，即可免费部署一套企业级的客户服务系统。
+
+---
+
+<details>
+<summary>📢 <b>v5.1 版本重要更新公告 (2026-01-05)</b></summary>
+### 主要修复：
+- **自动话题修复**：被删除话题用户不再转发到general，会自动新建话题
+- **话题创建失败会无限循环**：最多重试 3 次，自动保护
+- **字符串/数字混用导致消息路由错误**：统一规范化为字符串类型
+- **并发验证绕过漏洞**：添加验证锁机制，防止并发攻击
+- **数据损坏保护**：实现 `safeGetJSON()` 安全读取机制
+- **验证系统bug修复**：改用索引方案，完全避免截断问题， 100% 可用
+   
+### 更新功能：
+**批量清理工具**：/cleanup  # 扫描并清理已删除话题的用户数据
+
+### ⚠️ 更新指南：
+Fork用户可直接点击sync 更新同步，自动更新
+手动部署用户复制worker.js代码到worker,重新部署一次
+</details>
 
 ---
 
@@ -54,6 +74,7 @@ v4.0 版本移除了所有不稳定的外部 API 依赖，专注于**极致的�
 | `/trust` | **永久信任**<br>该用户将永久免除人机验证（永不过期）。 | 熟人、VIP 客户、长期合作伙伴。 |
 | `/reset` | **重置验证**<br>强制清除该用户的验证状态，下次需重新验证。 | 测试验证流程，或怀疑账号被盗。 |
 | `/info` | **查看信息**<br>显示当前用户的 UID、话题 ID 和链接。 | 查询用户资料。 |
+| `/cleanup` | **批量清理**<br>扫描并清理已删除话题的用户数据。 | 清理失效用户。 |
 
 ---
 
